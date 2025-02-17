@@ -4,13 +4,14 @@ import time
 import os
 import random
 import schedule
+import os
 
 # Setup logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Facebook API endpoint and access token
 FB_API_URL = "https://graph.facebook.com/v18.0/me/photos"
-ACCESS_TOKEN = "xxx"  # Replace with your valid access token
+ACCESS_TOKEN = os.getenv("FACEBOOK_ACCESS_TOKEN")
 
 def get_random_image(img_folder):
     """Get a random image from the specified folder."""
@@ -63,7 +64,8 @@ def job():
             logging.error("No quotes found in the specified file.")
 
 if __name__ == "__main__":
-    schedule.every(12).hours.do(job)
+    job()
+    schedule.every(3).hours.do(job)
     while True:
         schedule.run_pending()
         time.sleep(1)
